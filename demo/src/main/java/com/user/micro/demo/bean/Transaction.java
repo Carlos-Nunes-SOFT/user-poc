@@ -1,5 +1,6 @@
 package com.user.micro.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.user.micro.demo.enums.TransactionType;
 import jakarta.persistence.*;
 
@@ -14,6 +15,10 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 
     protected  Transaction(){}
 
@@ -33,6 +38,10 @@ public class Transaction {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {
