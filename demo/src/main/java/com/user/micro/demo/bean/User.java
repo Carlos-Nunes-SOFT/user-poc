@@ -1,20 +1,27 @@
 package com.user.micro.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-@Entity(name = "user")
+@Entity(name = "user_table")
 public class User {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @Size(min=2, message ="Name should have at least 2 characters.")
     private String name;
 
+    @OneToMany(mappedBy = "user") //If there's OneToMany without mappedBy,
+    // hibernate creates new relationship table user_transaction
+    @JsonIgnore
     private List<Transaction> transactions;
 
     protected User() {}

@@ -3,6 +3,7 @@ package com.user.micro.demo.bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.user.micro.demo.enums.TransactionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity(name = "transaction")
 public class Transaction {
@@ -11,13 +12,14 @@ public class Transaction {
     @GeneratedValue
     private Long id;
 
+    @Positive(message = "Amount should be greater than zero.")
     private Integer amount;
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "user_id") //Creates foreign key to reference user on transaction table
     private User user;
 
     protected  Transaction(){}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.user.micro.demo.bean.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,6 +17,10 @@ public class UserService {
     public List<User> getUsers(){
 
         return userRepository.findAll();
+    }
+
+    public Optional<User> getById(Long id){
+        return userRepository.findById(id);
     }
 
     public User createUser(User user) {
