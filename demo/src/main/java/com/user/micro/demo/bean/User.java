@@ -27,11 +27,12 @@ public class User {
     @JsonIgnore
     private List<Transaction> transactions;
 
-    protected User() {}
+    public User() {}
 
-    public User(Long id, String name, List<Transaction> transactions) {
+    public User(Long id, String name, Long balance,List<Transaction> transactions) {
         this.id = id;
         this.name = name;
+        this.balance = balance;
         this.transactions = transactions;
     }
 
@@ -40,6 +41,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", balance=" + balance +
                 ", transactions=" + transactions +
                 '}';
     }
@@ -52,6 +54,10 @@ public class User {
         return name;
     }
 
+    public Long getBalance() {
+        return balance;
+    }
+
     public List<Transaction> getTransactions() {
         return transactions;
     }
@@ -60,8 +66,12 @@ public class User {
         this.id = id;
     }
 
-    public void setEmail(String name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 
     public void setTransactions(List<Transaction> transactions) {

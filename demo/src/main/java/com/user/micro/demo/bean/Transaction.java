@@ -22,7 +22,7 @@ public class Transaction {
     @JoinColumn(name = "user_id") //Creates foreign key to reference user on transaction table
     private User user;
 
-    protected  Transaction(){}
+    public Transaction(){}
 
     public Transaction(Long id, Integer amount, TransactionType type) {
         this.id = id;

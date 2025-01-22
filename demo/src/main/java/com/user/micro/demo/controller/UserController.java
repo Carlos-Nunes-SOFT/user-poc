@@ -2,6 +2,7 @@ package com.user.micro.demo.controller;
 
 import com.user.micro.demo.bean.Transaction;
 import com.user.micro.demo.bean.User;
+import com.user.micro.demo.enums.TransactionType;
 import com.user.micro.demo.exception.UserNotFoundException;
 import com.user.micro.demo.repository.TransactionRepository;
 import com.user.micro.demo.service.UserService;
@@ -43,7 +44,6 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id){
         Optional<User> user = userService.getById(id);
@@ -52,25 +52,6 @@ public class UserController {
             throw new UserNotFoundException("No such user with id: " + id);
 
         userService.deleteUser(id);
-    }
-
-    @PostMapping("/user/{id}/transaction")
-    public ResponseEntity<Transaction> createPostForUser(@PathVariable Long id, @Valid @RequestBody Transaction transaction)
-    {
-        Optional<User> user = userService.getById(id);
-
-        if(user.isEmpty())
-            throw new UserNotFoundException("No such user with id: " + id);
-
-        transaction.setUser(user.get());
-        Transaction savedTransaction = transactionRepository.save(transaction);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand((savedTransaction.getId()))
-                .toUri();
-
-        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/user/{id}/transactions")
@@ -83,4 +64,30 @@ public class UserController {
         return user.get().getTransactions();
     }
 
+    @PostMapping("/user/{id}/execute-transaction")
+    //Also possible to create a DTO for the TransactionRequest which allows the creation of JSON type body instead of route ?type=..&amount=..
+    public ResponseEntity<Transaction> executeTransaction(@PathVariable Long id, @RequestParam TransactionType type, @RequestParam Integer amount){
+        Transaction transaction = userService.executeTransaction(id, type, amount);
+
+        return ResponseEntity.ok(transaction);
+    }
+
+//    @PostMapping("/user/{id}/transaction")
+//    public ResponseEntity<Transaction> createTransactionForUser(@PathVariable Long id, @Valid @RequestBody Transaction transaction)
+//    {
+//        Optional<User> user = userService.getById(id);
+//
+//        if(user.isEmpty())
+//            throw new UserNotFoundException("No such user with id: " + id);
+//
+//        transaction.setUser(user.get());
+//        Transaction savedTransaction = transactionRepository.save(transaction);
+//
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                    .path("/{id}")
+//                    .buildAndExpand((savedTransaction.getId()))
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 }
