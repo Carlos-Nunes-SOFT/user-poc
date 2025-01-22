@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Positive;
 public class Transaction {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Positive(message = "Amount should be greater than zero.")
