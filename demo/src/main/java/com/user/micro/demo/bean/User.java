@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public class User {
 
     @Size(min=2, message ="Name should have at least 2 characters.")
     private String name;
+
+    private Long balance;
 
     @OneToMany(mappedBy = "user") //If there's OneToMany without mappedBy,
     // hibernate creates new relationship table user_transaction
