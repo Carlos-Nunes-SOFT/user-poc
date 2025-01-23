@@ -24,13 +24,11 @@ public class User {
     @JsonIgnore
     private List<Transaction> transactions;
 
-    public User() {}
+    protected User() {}
 
-    public User(Long id, String name, Long balance,List<Transaction> transactions) {
-        this.id = id;
+    public User(String name, Long balance) {
         this.name = name;
         this.balance = balance;
-        this.transactions = transactions;
     }
 
     @Override
