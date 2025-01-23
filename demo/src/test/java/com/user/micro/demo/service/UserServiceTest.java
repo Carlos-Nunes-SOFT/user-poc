@@ -1,11 +1,12 @@
 package com.user.micro.demo.service;
 
-import com.user.micro.demo.bean.Transaction;
-import com.user.micro.demo.bean.User;
-import com.user.micro.demo.enums.TransactionType;
+import com.user.micro.demo.application.service.UserService;
+import com.user.micro.demo.domain.user.Transaction;
+import com.user.micro.demo.domain.user.User;
+import com.user.micro.demo.domain.user.enums.TransactionType;
 import com.user.micro.demo.exception.UserNotFoundException;
-import com.user.micro.demo.repository.TransactionRepository;
-import com.user.micro.demo.repository.UserRepository;
+import com.user.micro.demo.infrastructure.repository.TransactionRepository;
+import com.user.micro.demo.infrastructure.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

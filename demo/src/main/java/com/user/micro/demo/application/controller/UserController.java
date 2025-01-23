@@ -1,13 +1,12 @@
-package com.user.micro.demo.controller;
+package com.user.micro.demo.application.controller;
 
-import com.user.micro.demo.bean.Transaction;
-import com.user.micro.demo.bean.User;
-import com.user.micro.demo.enums.TransactionType;
+import com.user.micro.demo.domain.user.Transaction;
+import com.user.micro.demo.domain.user.User;
+import com.user.micro.demo.domain.user.enums.TransactionType;
 import com.user.micro.demo.exception.UserNotFoundException;
-import com.user.micro.demo.repository.TransactionRepository;
-import com.user.micro.demo.service.UserService;
+import com.user.micro.demo.infrastructure.repository.TransactionRepository;
+import com.user.micro.demo.application.service.UserService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -71,23 +70,4 @@ public class UserController {
 
         return ResponseEntity.ok(transaction);
     }
-
-//    @PostMapping("/user/{id}/transaction")
-//    public ResponseEntity<Transaction> createTransactionForUser(@PathVariable Long id, @Valid @RequestBody Transaction transaction)
-//    {
-//        Optional<User> user = userService.getById(id);
-//
-//        if(user.isEmpty())
-//            throw new UserNotFoundException("No such user with id: " + id);
-//
-//        transaction.setUser(user.get());
-//        Transaction savedTransaction = transactionRepository.save(transaction);
-//
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//                    .path("/{id}")
-//                    .buildAndExpand((savedTransaction.getId()))
-//                .toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
 }

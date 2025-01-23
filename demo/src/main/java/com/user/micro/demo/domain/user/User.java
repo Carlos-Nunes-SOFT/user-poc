@@ -1,8 +1,7 @@
-package com.user.micro.demo.bean;
+package com.user.micro.demo.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;

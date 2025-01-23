@@ -1,7 +1,6 @@
-package com.user.micro.demo.bean;
+package com.user.micro.demo.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.user.micro.demo.enums.TransactionType;
+import com.user.micro.demo.domain.user.enums.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 

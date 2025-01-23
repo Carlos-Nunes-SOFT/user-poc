@@ -1,6 +1,6 @@
-package com.user.micro.demo.repository;
+package com.user.micro.demo.infrastructure.repository;
 
-import com.user.micro.demo.bean.Transaction;
+import com.user.micro.demo.domain.user.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface  TransactionRepository extends JpaRepository<Transaction, Long> {

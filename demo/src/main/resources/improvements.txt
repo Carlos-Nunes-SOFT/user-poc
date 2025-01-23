@@ -1,0 +1,7 @@
+SOLID  DTOs  outros modulos avoid sql injects abstrair mdetodos controller
+
+
+pensar como posso melhorar o micro e enviar as sugestões e depois implementar
+
+Use CQRS for seggregating responsability (commands and queries) together with DTOs.
+This will allow for a more encapsulated business logic and help to avoid SQL injections.

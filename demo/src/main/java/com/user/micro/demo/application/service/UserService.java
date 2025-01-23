@@ -1,14 +1,14 @@
-package com.user.micro.demo.service;
+package com.user.micro.demo.application.service;
 
-import com.user.micro.demo.bean.Transaction;
-import com.user.micro.demo.enums.TransactionType;
+import com.user.micro.demo.domain.user.Transaction;
+import com.user.micro.demo.domain.user.enums.TransactionType;
 import com.user.micro.demo.exception.UserNotFoundException;
-import com.user.micro.demo.repository.TransactionRepository;
-import com.user.micro.demo.repository.UserRepository;
+import com.user.micro.demo.infrastructure.repository.TransactionRepository;
+import com.user.micro.demo.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.user.micro.demo.bean.User;
+import com.user.micro.demo.domain.user.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +43,7 @@ public class UserService {
     public Transaction executeTransaction(Long userId, TransactionType type, Integer amount){
         Optional<User> tempUser = userRepository.findById(userId);
         if(tempUser.isEmpty())
-            throw new UserNotFoundException("No such user with id: " + userId);
+            throw new UserNotFoundException("No such user for given id");
 
         User user = tempUser.get();
 
