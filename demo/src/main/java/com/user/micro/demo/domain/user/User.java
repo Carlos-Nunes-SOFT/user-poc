@@ -19,10 +19,10 @@ public class User {
 
     private Long balance;
 
-    @OneToMany(mappedBy = "user") //If there's OneToMany without mappedBy,
+    //@OneToMany //If there's OneToMany without mappedBy,
     // hibernate creates new relationship table user_transaction
     @JsonIgnore
-    private List<Transaction> transactions;
+    private transient List<Transaction> transactions;
 
     protected User() {}
 

@@ -57,7 +57,7 @@ public class UserController {
         UserDto user = this.userCommandHandler.CreateUser(request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{/id}")
+                .path("/{id}")
                 .buildAndExpand((user.getId()))
                 .toUri();
 
@@ -86,7 +86,7 @@ public class UserController {
         UserDto user = this.userCommandHandler.ExecuteTransaction(request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{/id}")
+                .path("/{id}")
                 .buildAndExpand((user.getId()))
                 .toUri();
 

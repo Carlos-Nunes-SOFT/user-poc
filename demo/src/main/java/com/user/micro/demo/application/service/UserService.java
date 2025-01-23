@@ -57,7 +57,7 @@ public class UserService {
             user.setBalance(user.getBalance() + amount);
 
         Transaction transaction = new Transaction();
-        transaction.setUser(user);
+        //transaction.setUser(user);
         transaction.setType(type);
         transaction.setAmount(amount);
 

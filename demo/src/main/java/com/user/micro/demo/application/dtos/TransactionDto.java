@@ -7,7 +7,15 @@ public class TransactionDto {
     private Long id;
     private Integer amount;
     private TransactionType type;
-    private String timeStamp;
+    private String timestamp;
+
+    public TransactionDto(Long userId, Long id, Integer amount, TransactionType type, String timestamp) {
+        this.userId = userId;
+        this.id = id;
+        this.amount = amount;
+        this.type = type;
+        this.timestamp = timestamp;
+    }
 
     public Long getId() {
         return id;
@@ -26,6 +34,6 @@ public class TransactionDto {
     }
 
     public String getTimeStamp() {
-        return timeStamp;
+        return timestamp;
     }
 }

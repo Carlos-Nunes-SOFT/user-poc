@@ -5,6 +5,7 @@ import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.mapper.UserMapper;
 import com.user.micro.demo.domain.user.Transaction;
 import com.user.micro.demo.domain.user.User;
+import com.user.micro.demo.domain.user.builder.TransactionBuilder;
 import com.user.micro.demo.domain.user.builder.UserBuilder;
 import com.user.micro.demo.exception.UserNotFoundException;
 import com.user.micro.demo.infrastructure.repository.UserRepository;
@@ -17,14 +18,17 @@ public class UserCommandHandler {
 
     private UserRepository userRepository;
     private UserBuilder userBuilder;
+    private TransactionBuilder transactionBuilder;
     private UserMapper userMapper;
 
     public UserCommandHandler(
             UserRepository userRepository,
             UserBuilder userBuilder,
+            TransactionBuilder transactionBuilder,
             UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userBuilder = userBuilder;
+        this.transactionBuilder = transactionBuilder;
         this.userMapper = userMapper;
     }
 
@@ -42,7 +46,7 @@ public class UserCommandHandler {
     public void DeleteUser(DeleteUserCommand request){
         User user = this.userRepository.findById(request.id)
                 .orElseThrow(() -> new UserNotFoundException("No such user with id: " + request.id));
-        this. userRepository.delete(user);
+        this.userRepository.delete(user);
     }
 
     @Transactional
@@ -50,7 +54,11 @@ public class UserCommandHandler {
         User user = this.userRepository.findById(request.userId)
                 .orElseThrow(() -> new UserNotFoundException("No such user with id: " + request.userId));
 
-        this.userBuilder.addTransaction(new Transaction(request.amount, request.type));
+        Transaction transaction = this.transactionBuilder
+                .newTransaction(request.userId, request.amount, request.type)
+                .build();
+
+        user.addTransactionToTransactionList(transaction);
 
         this.userRepository.save(user);
 
