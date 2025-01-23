@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserCommandHandler {
+
     private UserRepository userRepository;
     private UserBuilder userBuilder;
     private UserMapper userMapper;
 
     public UserCommandHandler(
             UserRepository userRepository,
-            UserBuilder userBuilder) {
+            UserBuilder userBuilder,
+            UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userBuilder = userBuilder;
+        this.userMapper = userMapper;
     }
 
     public UserDto CreateUser(CreateUserCommand request) {
