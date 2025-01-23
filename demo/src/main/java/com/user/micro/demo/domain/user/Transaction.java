@@ -23,8 +23,7 @@ public class Transaction {
 
     public Transaction(){}
 
-    public Transaction(Long id, Integer amount, TransactionType type) {
-        this.id = id;
+    public Transaction(Integer amount, TransactionType type) {
         this.amount = amount;
         this.type = type;
     }
@@ -43,6 +42,10 @@ public class Transaction {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getUserId(){
+        return user != null ? user.getId() : null;
     }
 
     public Long getId() {

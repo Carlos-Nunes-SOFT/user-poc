@@ -1,23 +1,12 @@
 package com.user.micro.demo.domain.user.builder;
 
+import com.user.micro.demo.domain.user.Transaction;
 import com.user.micro.demo.domain.user.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserBuilderImpl implements UserBuilder{
     private User user;
-
-    @Override
-    public UserBuilder withName(String name){
-        this.user.setName(name);
-        return this;
-    }
-
-    @Override
-    public UserBuilder withBalance(Long balance){
-        this.user.setBalance(balance);
-        return this;
-    }
 
     @Override
     public User build(){
@@ -29,6 +18,12 @@ public class UserBuilderImpl implements UserBuilder{
     @Override
     public UserBuilder newUser(String name, Long balance){
         user = new User(name, balance);
+        return this;
+    }
+
+    @Override
+    public UserBuilder addTransaction(Transaction transaction) {
+        user.addTransactionToTransactionList(transaction);
         return this;
     }
 }

@@ -72,4 +72,10 @@ public class User {
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public void addTransactionToTransactionList(Transaction transaction){
+        if(transaction==null)
+            throw new IllegalArgumentException("Transaction cannot be null.");
+        this.transactions.add(transaction);
+    }
 }
