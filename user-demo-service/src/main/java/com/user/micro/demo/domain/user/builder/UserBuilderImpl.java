@@ -1,6 +1,6 @@
 package com.user.micro.demo.domain.user.builder;
 
-import com.user.micro.demo.domain.user.Transaction;
+import com.user.micro.demo.application.dtos.TransactionDto;
 import com.user.micro.demo.domain.user.User;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class UserBuilderImpl implements UserBuilder{
     }
 
     @Override
-    public UserBuilder addTransaction(Transaction transaction) {
+    public UserBuilder addTransaction(TransactionDto transaction) {
         if(user.getTransactions()==null)
             user.setTransactions(new ArrayList<>());
         user.addTransactionToTransactionList(transaction);

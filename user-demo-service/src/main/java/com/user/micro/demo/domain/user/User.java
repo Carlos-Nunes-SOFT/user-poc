@@ -1,6 +1,7 @@
 package com.user.micro.demo.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.user.micro.demo.application.dtos.TransactionDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -23,7 +24,7 @@ public class User {
     //@OneToMany //If there's OneToMany without mappedBy,
     // hibernate creates new relationship table user_transaction
     @JsonIgnore
-    private transient List<Transaction> transactions = new ArrayList<>();
+    private transient List<TransactionDto> transactions = new ArrayList<>();
 
     public User() {}
 
@@ -55,7 +56,7 @@ public class User {
         return balance;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<TransactionDto> getTransactions() {
         return transactions;
     }
 
@@ -71,11 +72,11 @@ public class User {
         this.balance = balance;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<TransactionDto> transactions) {
         this.transactions = transactions;
     }
 
-    public void addTransactionToTransactionList(Transaction transaction){
+    public void addTransactionToTransactionList(TransactionDto transaction){
         if(transaction==null)
             throw new IllegalArgumentException("Transaction cannot be null.");
         this.transactions.add(transaction);

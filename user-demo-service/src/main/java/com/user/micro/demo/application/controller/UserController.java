@@ -1,5 +1,6 @@
 package com.user.micro.demo.application.controller;
 
+import com.user.micro.demo.application.commands.CreateTransactionCommand;
 import com.user.micro.demo.application.commands.CreateUserCommand;
 import com.user.micro.demo.application.commands.DeleteUserCommand;
 import com.user.micro.demo.application.commands.UserCommandHandler;
@@ -68,11 +69,12 @@ public class UserController {
         return proxy.getTransactionsByUserId(userId);
     }
     @PostMapping("/user/execute-transaction")
-    public ResponseEntity<UserDto> executeTransaction(@RequestBody CreateTransactionCommand request){
-        UserDto user = this.userCommandHandler.ExecuteTransaction(request);
+    public ResponseEntity<UserDto> executeTransaction(@RequestParam(name = "userId") Long userId,
+                                                      @RequestBody CreateTransactionCommand request){
+        UserDto user = this.userCommandHandler.ExecuteTransaction(userId, request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(request.userId.toString())
+                .path(userId.toString())
                 .buildAndExpand((user.getId()))
                 .toUri();
 
