@@ -1,28 +1,12 @@
 package com.user.micro.demo.service;
 
-import com.user.micro.demo.application.commands.CreateTransactionCommand;
-import com.user.micro.demo.application.commands.UserCommandHandler;
-import com.user.micro.demo.application.dtos.UserDto;
-import com.user.micro.demo.domain.user.Transaction;
-import com.user.micro.demo.domain.user.User;
-import com.user.micro.demo.domain.user.enums.TransactionType;
-import com.user.micro.demo.exception.UserNotFoundException;
-import com.user.micro.demo.infrastructure.repository.TransactionRepository;
-import com.user.micro.demo.infrastructure.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
