@@ -25,7 +25,7 @@ public class User {
     @JsonIgnore
     private transient List<Transaction> transactions = new ArrayList<>();
 
-    protected User() {}
+    public User() {}
 
     public User(String name, Long balance) {
         this.name = name;

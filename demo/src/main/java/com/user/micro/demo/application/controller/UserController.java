@@ -29,15 +29,12 @@ public class UserController {
 
     private UserCommandHandler userCommandHandler;
     private UserQueryHandler userQueryHandler;
-    private TransactionRepository transactionRepository;
 
     public UserController(
             UserCommandHandler userCommandHandler,
-            UserQueryHandler userQueryHandler,
-            TransactionRepository transactionRepository) {
+            UserQueryHandler userQueryHandler) {
         this.userCommandHandler = userCommandHandler;
         this.userQueryHandler = userQueryHandler;
-        this.transactionRepository = transactionRepository;
     }
 
     @GetMapping("/users")
@@ -75,7 +72,6 @@ public class UserController {
     }
 
     @PostMapping("/user/execute-transaction")
-    //Also possible to create a DTO for the TransactionRequest which allows the creation of JSON type body instead of route ?type=..&amount=..
     public ResponseEntity<UserDto> executeTransaction(@RequestBody CreateTransactionCommand request){
         UserDto user = this.userCommandHandler.ExecuteTransaction(request);
 
@@ -85,6 +81,5 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
-        //return ResponseEntity.ok(user);
     }
 }
