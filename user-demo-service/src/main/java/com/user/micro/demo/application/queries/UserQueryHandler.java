@@ -43,14 +43,4 @@ public class UserQueryHandler {
                 .orElseThrow(() -> new UserNotFoundException("No such user for id: " + request.id));
     }
 
-    public List<TransactionDto> getUserTransactions(GetUserTransactionsQuery request){
-        if(!this.userRepository.existsById(request.userId))
-            throw new UserNotFoundException("No such user with id: " + request.userId);
-
-        List<Transaction> transactions = this.transactionRepository.findByUserId(request.userId);
-
-        return transactions.stream()
-                .map(transactionMapper::toDto)
-                .collect(Collectors.toList());
-    }
 }
