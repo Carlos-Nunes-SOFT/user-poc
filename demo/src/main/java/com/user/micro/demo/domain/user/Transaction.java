@@ -17,14 +17,13 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id") //Creates foreign key to reference user on transaction table
-    private User user;
+    @Column(nullable = false)
+    private Long userId;
 
     public Transaction(){}
 
-    public Transaction(Long id, Integer amount, TransactionType type) {
-        this.id = id;
+    public Transaction(Long userId, Integer amount, TransactionType type) {
+        this.userId = userId;
         this.amount = amount;
         this.type = type;
     }
@@ -41,8 +40,8 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Long getUserId() {
+        return userId;
     }
 
     public Long getId() {
