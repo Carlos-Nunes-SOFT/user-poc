@@ -4,6 +4,8 @@ import com.user.micro.demo.domain.user.Transaction;
 import com.user.micro.demo.domain.user.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class UserBuilderImpl implements UserBuilder{
     private User user;
@@ -23,6 +25,8 @@ public class UserBuilderImpl implements UserBuilder{
 
     @Override
     public UserBuilder addTransaction(Transaction transaction) {
+        if(user.getTransactions()==null)
+            user.setTransactions(new ArrayList<>());
         user.addTransactionToTransactionList(transaction);
         return this;
     }

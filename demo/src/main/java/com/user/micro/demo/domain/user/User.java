@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,13 +23,14 @@ public class User {
     //@OneToMany //If there's OneToMany without mappedBy,
     // hibernate creates new relationship table user_transaction
     @JsonIgnore
-    private transient List<Transaction> transactions;
+    private transient List<Transaction> transactions = new ArrayList<>();
 
     protected User() {}
 
     public User(String name, Long balance) {
         this.name = name;
         this.balance = balance;
+        this.transactions = new ArrayList<>();
     }
 
     @Override
