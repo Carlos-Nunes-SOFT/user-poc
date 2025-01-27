@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: UserDemo
+
+    datasource:
+        url: jdbc:mysql://109.123.244.12:31864/userdemo?useSSL=false&allowPublicKeyRetrieval=true
+        username: userdemo
+        password: userdemopassword
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+        defer-datasource-initialization: true
+    
+    config: 
+        import: "optional:configserver:http://localhost:8888"
+
+server:
+    port: 8080
+
+logging:
+    level:
+        org.hibernate.SQL: DEBUG
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
