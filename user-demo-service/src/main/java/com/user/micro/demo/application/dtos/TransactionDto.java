@@ -22,8 +22,8 @@ public class TransactionDto {
         this.userId = userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public void setAmount(Integer amount) {
@@ -34,8 +34,8 @@ public class TransactionDto {
         this.type = type;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
