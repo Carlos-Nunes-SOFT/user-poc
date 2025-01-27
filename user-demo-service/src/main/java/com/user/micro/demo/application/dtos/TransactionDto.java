@@ -1,14 +1,16 @@
 package com.user.micro.demo.application.dtos;
 
 
+import java.time.LocalDateTime;
+
 public class TransactionDto {
     private Long userId;
-    private Long id;
+    private String id;
     private Integer amount;
     private String type;
-    private String timestamp;
+    private LocalDateTime timestamp;
 
-    public TransactionDto(Long userId, Long id, Integer amount, String type, String timestamp) {
+    public TransactionDto(Long userId, String id, Integer amount, String type, LocalDateTime timestamp) {
         this.userId = userId;
         this.id = id;
         this.amount = amount;
@@ -20,7 +22,7 @@ public class TransactionDto {
         this.userId = userId;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -32,11 +34,11 @@ public class TransactionDto {
         this.type = type;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -52,7 +54,7 @@ public class TransactionDto {
         return userId;
     }
 
-    public String getTimeStamp() {
+    public LocalDateTime getTimeStamp() {
         return timestamp;
     }
 }

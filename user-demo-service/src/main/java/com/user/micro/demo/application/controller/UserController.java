@@ -48,7 +48,7 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserCommand request) {
-        UserDto user = this.userCommandHandler.CreateUser(request);
+        UserDto user = this.userCommandHandler.createUser(request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -61,7 +61,7 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable Long id){
         DeleteUserCommand command = new DeleteUserCommand(id);
-        this.userCommandHandler.DeleteUser(command);
+        this.userCommandHandler.deleteUser(command);
     }
 
     @GetMapping("/user/transactions")
@@ -71,7 +71,7 @@ public class UserController {
     @PostMapping("/user/execute-transaction")
     public ResponseEntity<UserDto> executeTransaction(@RequestParam(name = "userId") Long userId,
                                                       @RequestBody CreateTransactionCommand request){
-        UserDto user = this.userCommandHandler.ExecuteTransaction(userId, request);
+        UserDto user = this.userCommandHandler.executeTransaction(userId, request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path(userId.toString())

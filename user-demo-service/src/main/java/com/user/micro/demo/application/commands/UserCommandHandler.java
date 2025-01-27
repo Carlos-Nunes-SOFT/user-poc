@@ -4,6 +4,7 @@ import com.user.micro.demo.application.dtos.TransactionDto;
 import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.mapper.UserMapper;
 import com.user.micro.demo.application.proxy.TransactionServiceProxy;
+import com.user.micro.demo.application.utils.ExecuteTransactionCommandUtils;
 import com.user.micro.demo.domain.user.User;
 import com.user.micro.demo.domain.user.builder.UserBuilder;
 import com.user.micro.demo.exception.InsufficientFundsException;
@@ -33,7 +34,7 @@ public class UserCommandHandler {
         this.proxy = proxy;
     }
 
-    public UserDto CreateUser(CreateUserCommand request) {
+    public UserDto createUser(CreateUserCommand request) {
         //MISSING DUPLICATE CHECK
         User user = this.userBuilder
                 .newUser(request.name, request.balance)
@@ -44,14 +45,14 @@ public class UserCommandHandler {
         return userMapper.toDto(user);
     }
 
-    public void DeleteUser(DeleteUserCommand request){
+    public void deleteUser(DeleteUserCommand request){
         User user = this.userRepository.findById(request.id)
                 .orElseThrow(() -> new UserNotFoundException("No such user with id: " + request.id));
         this.userRepository.delete(user);
     }
 
     @Transactional
-    public UserDto ExecuteTransaction(Long userId, CreateTransactionCommand request){
+    public UserDto executeTransaction(Long userId, CreateTransactionCommand request){
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
         logger.info("Executing transaction for userId={}, amount={}, type={}",
@@ -60,26 +61,22 @@ public class UserCommandHandler {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("No such user with id: " + userId.toString()));
 
-        switch (request.type){
-            case "WITHDRAWAL", "TRANSFER" -> {
-                if (user.getBalance() < request.amount)
-                    throw new InsufficientFundsException("Insufficient funds for this transactions.");
-                user.setBalance(user.getBalance() - request.amount);
-            }
-            case "DEPOSIT" -> user.setBalance(user.getBalance() + request.amount);
-            default -> throw new IllegalArgumentException("Invalid transaction type");
-        }
+        UserDto userDto = this.userMapper.toDto(user);
+
+        UserDto updatedUserDto = ExecuteTransactionCommandUtils.updateUserBalance(
+                userDto, request.amount, request.type);
 
         logger.info("Calling transaction service to create transaction");
         TransactionDto transaction = proxy.createTransaction(userId, request);
         logger.info("Received transaction response: {}", transaction);
 
+        user.setBalance(updatedUserDto.getBalance());
         user.addTransactionToTransactionList(transaction);
-        user.setBalance(user.getBalance() + request.amount);
+
         this.userRepository.save(user);
 
         logger.info("Transaction executed successfully and user updated");
 
-        return this.userMapper.toDto(user);
+        return updatedUserDto;
     }
 }
