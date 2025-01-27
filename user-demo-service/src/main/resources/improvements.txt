@@ -12,4 +12,3 @@ server:
     port: 8080
 configurr mais um datasource
 
-{"timestamp":"2025-01-27T12:17:03.0713726","message":"[500] during [POST] to [http://localhost:8081/transaction/execute-transaction?userId=1] [TransactionServiceProxy#createTransaction(Long,CreateTransactionCommand)]: [{\"timestamp\":\"2025-01-27T12:17:02.9171604\",\"message\":\"Timed out while waiting for a server that matches WritableServerSelector. Client view of cluster state is {type=REPLICA_SET, servers=[{address=109.123.244.12:30914, type=UNKNOWN, state=CONNECTING}]\",\"details\":\"uri=/transaction/execute-transaction\"}]","details":"uri=/user/execute-transaction"}
