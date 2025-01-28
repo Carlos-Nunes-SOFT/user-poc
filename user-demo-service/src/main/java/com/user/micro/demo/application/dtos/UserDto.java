@@ -11,6 +11,10 @@ public class UserDto {
         this.balance = balance;
     }
 
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
     public Long getId() {
         return id;
     }
