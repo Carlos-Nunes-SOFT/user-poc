@@ -1,28 +1,48 @@
-package com.user.micro.demo.application.utils;
+package com.user.micro.demo.application.services;
 
+import com.user.micro.demo.application.commands.CreateUserCommand;
+import com.user.micro.demo.application.commands.DeleteUserCommand;
 import com.user.micro.demo.application.dtos.TransactionDto;
 import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.mapper.UserMapper;
 import com.user.micro.demo.domain.user.User;
+import com.user.micro.demo.domain.user.builder.UserBuilder;
 import com.user.micro.demo.exception.InsufficientFundsException;
 import com.user.micro.demo.exception.UserNotFoundException;
 import com.user.micro.demo.infrastructure.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component
-public class UserCommandHandlerUtils {
+@Service
+public class UserService {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final Logger logger = LoggerFactory.getLogger(UserCommandHandlerUtils.class);
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final UserBuilder userBuilder;
 
-    private UserRepository userRepository;
-    private  UserMapper userMapper;
-
-    public UserCommandHandlerUtils(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, UserBuilder userBuilder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.userBuilder = userBuilder;
+    }
+
+    public UserDto createUser(CreateUserCommand request) {
+        User user = this.userBuilder
+                .newUser(request.name, request.balance)
+                .build();
+
+        this.userRepository.save(user);
+
+        return userMapper.toDto(user);
+    }
+
+    public void deleteUser(DeleteUserCommand request){
+        User user = this.userRepository.findById(request.id)
+                .orElseThrow(() -> new UserNotFoundException("No such user with id: " + request.id));
+        this.userRepository.delete(user);
     }
 
     public Long calculateUserBalance(Long userId, Integer amount, String type) {
@@ -37,7 +57,7 @@ public class UserCommandHandlerUtils {
                     throw new InsufficientFundsException("Insufficient funds for this transactions.");
                 userBalance -= amount;
             }
-            case "DEPOSIT" -> userBalance+= amount;
+            case "DEPOSIT" -> userBalance += amount;
             default -> throw new IllegalArgumentException("Invalid transaction type");
         }
 
@@ -51,7 +71,8 @@ public class UserCommandHandlerUtils {
         return userMapper.toDto(user);
     }
 
-    public void updateUserBalanceWithTransaction(Long userId, Long newBalance,TransactionDto transactionDto){
+    @Transactional
+    public void updateUserBalanceWithTransaction(Long userId, Long newBalance, TransactionDto transactionDto){
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("No such user with id: " + userId.toString()));
 
