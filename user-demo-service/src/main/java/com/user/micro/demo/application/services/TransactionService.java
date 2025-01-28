@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.interceptor.TransactionalProxy;
 
 @Service
 public class TransactionService {
@@ -26,8 +25,6 @@ public class TransactionService {
 
     @Transactional
     public UserDto executeTransaction(Long userId, CreateTransactionCommand request){
-        //Orientar mais a um crud; Reduzir complexidade
-        //Encriptação e desencriptação
 
         logger.info("Executing transaction for userId={}, amount={}, type={}",
                 userId, request.amount, request.type);
