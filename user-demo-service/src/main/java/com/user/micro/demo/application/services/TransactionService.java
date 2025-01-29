@@ -4,6 +4,7 @@ import com.user.micro.demo.application.commands.CreateTransactionCommand;
 import com.user.micro.demo.application.dtos.TransactionDto;
 import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.proxy.TransactionServiceProxy;
+import com.user.micro.demo.application.utils.EncodingUtils;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,8 @@ public class TransactionService {
                 userId, request.amount, request.type);
 
         logger.info("Calling transaction service to create transaction");
-        TransactionDto transaction = transactionProxy.createTransaction(userId, request);
+        String encodedUserId = EncodingUtils.encode(userId);
+        TransactionDto transaction = transactionProxy.createTransaction(encodedUserId, request);
         logger.info("Received transaction response: {}", transaction);
 
         this.userService.updateUserBalanceWithTransaction(userId, newBalance, transaction);

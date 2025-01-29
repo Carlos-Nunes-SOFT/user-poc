@@ -9,6 +9,7 @@ import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.proxy.TransactionServiceProxy;
 import com.user.micro.demo.application.queries.GetUserByIdQuery;
 import com.user.micro.demo.application.queries.UserQueryHandler;
+import com.user.micro.demo.application.utils.EncodingUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,16 +67,18 @@ public class UserController {
 
     @GetMapping("/user/transactions")
     public List<TransactionDto> getTransactionsById(@RequestParam(name = "userId") Long userId) {
-        return proxy.getTransactionsByUserId(userId);
+        String encodedUserId = EncodingUtils.encode(userId);
+        return proxy.getTransactionsByUserId(encodedUserId);
     }
 
     @PostMapping("/user/execute-transaction")
     public ResponseEntity<UserDto> executeTransaction(@RequestParam(name = "userId") Long userId,
                                                       @RequestBody CreateTransactionCommand request){
+        String encodedUserId = EncodingUtils.encode(userId);
         UserDto user = this.userCommandHandler.executeTransaction(userId, request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(userId.toString())
+                .path(encodedUserId)
                 .buildAndExpand((user.getId()))
                 .toUri();
 
