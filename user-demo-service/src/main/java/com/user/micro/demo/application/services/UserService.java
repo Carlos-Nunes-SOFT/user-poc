@@ -7,6 +7,8 @@ import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.mapper.UserMapper;
 import com.user.micro.demo.domain.user.User;
 import com.user.micro.demo.domain.user.builder.UserBuilder;
+import com.user.micro.demo.domain.user.strategy.TransactionStrategy;
+import com.user.micro.demo.domain.user.strategy.TransactionStrategyFactory;
 import com.user.micro.demo.exception.InsufficientFundsException;
 import com.user.micro.demo.exception.UserNotFoundException;
 import com.user.micro.demo.infrastructure.repository.UserRepository;
@@ -49,19 +51,10 @@ public class UserService {
         logger.info("Updating balance for userId={}, transaction type={}, amount={}",
                 userId, type, amount);
 
-        Long userBalance = this.userRepository.findBalanceById(userId);
+        Long userBalance = this.userRepository.findBalanceById(userId).getBalance();
+        TransactionStrategy strategy = TransactionStrategyFactory.getStrategy(type);
 
-        switch (type) {
-            case "WITHDRAWAL", "TRANSFER" -> {
-                if (userBalance < amount)
-                    throw new InsufficientFundsException("Insufficient funds for this transactions.");
-                userBalance -= amount;
-            }
-            case "DEPOSIT" -> userBalance += amount;
-            default -> throw new IllegalArgumentException("Invalid transaction type");
-        }
-
-        return userBalance;
+        return strategy.calculate(userBalance, amount);
     }
 
     public UserDto findUserById(Long userId){
@@ -78,6 +71,7 @@ public class UserService {
 
         user.setBalance(newBalance);
         user.addTransactionToTransactionList(transactionDto);
+
         userRepository.save(user);
         logger.info("Updated user balance for userId={} to {}", userId, newBalance);
     }

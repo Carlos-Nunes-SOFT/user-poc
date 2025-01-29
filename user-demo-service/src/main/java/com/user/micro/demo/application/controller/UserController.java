@@ -68,6 +68,7 @@ public class UserController {
     public List<TransactionDto> getTransactionsById(@RequestParam(name = "userId") Long userId) {
         return proxy.getTransactionsByUserId(userId);
     }
+
     @PostMapping("/user/execute-transaction")
     public ResponseEntity<UserDto> executeTransaction(@RequestParam(name = "userId") Long userId,
                                                       @RequestBody CreateTransactionCommand request){
