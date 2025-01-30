@@ -14,9 +14,9 @@ import java.util.List;
 public interface TransactionServiceProxy {
 
     @GetMapping("/transaction/transactions")
-    public List<TransactionDto> getTransactionsByUserId(@RequestParam(name = "userId") String encodedUserId);
+    public List<TransactionDto> getTransactionsByUserId(@RequestParam(name = "userId") Long userId);
 
     @PostMapping("/transaction/execute-transaction")
-    public TransactionDto createTransaction(@RequestParam(name= "userId") String encodedUserId,
+    public TransactionDto createTransaction(@RequestParam(name= "userId") Long userId,
                                             @RequestBody CreateTransactionCommand request);
 }

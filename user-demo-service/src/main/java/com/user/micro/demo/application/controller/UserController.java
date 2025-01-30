@@ -4,9 +4,11 @@ import com.user.micro.demo.application.commands.CreateTransactionCommand;
 import com.user.micro.demo.application.commands.CreateUserCommand;
 import com.user.micro.demo.application.commands.DeleteUserCommand;
 import com.user.micro.demo.application.commands.UserCommandHandler;
+import com.user.micro.demo.application.dtos.EncryptedUserDto;
 import com.user.micro.demo.application.dtos.TransactionDto;
 import com.user.micro.demo.application.dtos.UserDto;
 import com.user.micro.demo.application.proxy.TransactionServiceProxy;
+import com.user.micro.demo.application.queries.GetEncryptedUserByIdQuery;
 import com.user.micro.demo.application.queries.GetUserByIdQuery;
 import com.user.micro.demo.application.queries.UserQueryHandler;
 import com.user.micro.demo.application.utils.EncodingUtils;
@@ -47,6 +49,17 @@ public class UserController {
         return this.userQueryHandler.getById(query);
     }
 
+    @GetMapping("/users/encrypted")
+    public List<EncryptedUserDto> getAllEncryptedUsers(){
+        return this.userQueryHandler.getEncryptedUsers();
+    }
+
+    @GetMapping("/user/{id}/encrypted")
+    public EncryptedUserDto getEncryptedUserById(@PathVariable String id){
+        GetEncryptedUserByIdQuery query = new GetEncryptedUserByIdQuery(id);
+        return this.userQueryHandler.getEncryptedById(query);
+    }
+
     @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserCommand request) {
         UserDto user = this.userCommandHandler.createUser(request);
@@ -67,18 +80,16 @@ public class UserController {
 
     @GetMapping("/user/transactions")
     public List<TransactionDto> getTransactionsById(@RequestParam(name = "userId") Long userId) {
-        String encodedUserId = EncodingUtils.encode(userId);
-        return proxy.getTransactionsByUserId(encodedUserId);
+        return proxy.getTransactionsByUserId(userId);
     }
 
     @PostMapping("/user/execute-transaction")
     public ResponseEntity<UserDto> executeTransaction(@RequestParam(name = "userId") Long userId,
                                                       @RequestBody CreateTransactionCommand request){
-        String encodedUserId = EncodingUtils.encode(userId);
         UserDto user = this.userCommandHandler.executeTransaction(userId, request);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(encodedUserId)
+                .path(userId.toString())
                 .buildAndExpand((user.getId()))
                 .toUri();
 

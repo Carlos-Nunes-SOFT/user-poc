@@ -36,8 +36,7 @@ public class TransactionService {
                 userId, request.amount, request.type);
 
         logger.info("Calling transaction service to create transaction");
-        String encodedUserId = EncodingUtils.encode(userId);
-        TransactionDto transaction = transactionProxy.createTransaction(encodedUserId, request);
+        TransactionDto transaction = transactionProxy.createTransaction(userId, request);
         logger.info("Received transaction response: {}", transaction);
 
         this.userService.updateUserBalanceWithTransaction(userId, newBalance, transaction);

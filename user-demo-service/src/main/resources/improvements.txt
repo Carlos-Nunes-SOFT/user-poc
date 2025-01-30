@@ -17,3 +17,5 @@ missing encryption
 para ver:
     - API stream com estados
     - Predicates
+
+   multi datasource - compactar dados noutra bd encriptados
